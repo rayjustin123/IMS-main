@@ -9,6 +9,7 @@ function dynamicClothingSection(ob) {
 
   let boxLink = document.createElement("a");
   // boxLink.href = '#'
+  
   boxLink.href = "/contentDetails.html?" + ob.id;
   // console.log('link=>' + boxLink);
 

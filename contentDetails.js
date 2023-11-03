@@ -43,11 +43,11 @@ function dynamicContentDetails(ob)
     detailsDiv.id = 'details'
 
     let h3DetailsDiv = document.createElement('h3')
-    let h3DetailsText = document.createTextNode('Rs ' + ob.price)
+    let h3DetailsText = document.createTextNode('Price: ' + ob.price)
     h3DetailsDiv.appendChild(h3DetailsText)
 
     let h3 = document.createElement('h3')
-    let h3Text = document.createTextNode('Description')
+    let h3Text = document.createTextNode('Description:')
     h3.appendChild(h3Text)
 
     let para = document.createElement('p')
