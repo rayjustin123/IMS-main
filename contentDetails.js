@@ -35,7 +35,8 @@ function dynamicContentDetails(ob)
     h1.appendChild(h1Text)
 
     let h4 = document.createElement('h4')
-    let h4Text = document.createTextNode(ob.brand)
+    h4.setAttribute('id','quantityField');
+    let h4Text = document.createTextNode(`Quantity: ${ob.quantity}`)
     h4.appendChild(h4Text)
     console.log(h4);
 
@@ -85,18 +86,43 @@ function dynamicContentDetails(ob)
     buttonDiv.appendChild(buttonTag)
 
     buttonText = document.createTextNode('Add to Cart')
+    const controller = new AbortController()
     buttonTag.onclick  =   function()
     {
-        let order = id+" "
-        let counter = 1
-        if(document.cookie.indexOf(',counter=')>=0)
-        {
-            order = id + " " + document.cookie.split(',')[0].split('=')[1]
-            counter = Number(document.cookie.split(',')[1].split('=')[1]) + 1
+        // let order = id+" "
+        // let counter = 1
+        // if(document.cookie.indexOf(',counter=')>=0)
+        // {
+        //     order = id + " " + document.cookie.split(',')[0].split('=')[1]
+        //     counter = Number(document.cookie.split(',')[1].split('=')[1]) + 1
+        // }
+        // document.cookie = "orderId=" + order + ",counter=" + counter
+        // document.getElementById("badge").innerHTML = counter
+        // console.log(document.cookie)
+        if (ob.quantity <= 0) {
+            alert("Stop")
+            return
         }
-        document.cookie = "orderId=" + order + ",counter=" + counter
-        document.getElementById("badge").innerHTML = counter
-        console.log(document.cookie)
+
+       ob.quantity = Number(ob.quantity) -1
+       document.getElementById("quantityField").innerHTML=`Quantity: ${ob.quantity}`;
+       fetch(`https://65414f5ef0b8287df1fe38b6.mockapi.io/Content/${ob.id}`, {
+  method: 'PUT', // or PATCH
+  headers: {'content-type':'application/json'},
+  body: JSON.stringify({...ob})
+}).then(res => {
+  if (res.ok) {
+      return res.json();
+  }
+  // handle error
+}).then(task => {
+    console.log(task)
+  // Do something with updated task
+}).catch(error => {
+  // handle error
+})
+
+
     }
     buttonTag.appendChild(buttonText)
 
