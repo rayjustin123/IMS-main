@@ -26,7 +26,8 @@ function dynamicClothingSection(ob) {
   h3.appendChild(h3Text);
 
   let h4 = document.createElement("h4");
-  let h4Text = document.createTextNode(ob.brand);
+  h4.setAttribute('id','quantityField');
+  let h4Text = document.createTextNode(`Quantity: ${ob.quantity}`)
   h4.appendChild(h4Text);
 
   let h2 = document.createElement("h2");
