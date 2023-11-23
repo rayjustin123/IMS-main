@@ -6,11 +6,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     $mysqli = require __DIR__ . "/database.php";
     
-    $sql = sprintf("SELECT * FROM user
-                    WHERE email = '%s'",
-                   $mysqli->real_escape_string($_POST["email"]));
+//   $sql = sprintf("SELECT id, password_hash, account_activation_hash FROM user
+//                 WHERE email = '%s'",
+//                $mysqli->real_escape_string($_POST["email"]));
+$sql = sprintf("SELECT id, password_hash, account_activation_hash FROM user
+                WHERE email = '%s'",
+               $mysqli->real_escape_string($_POST["email"]));
+
+
     
     $result = $mysqli->query($sql);
+    if (!$result) {
+        die("Error in query: " . $mysqli->error);
+    }
     
     $user = $result->fetch_assoc();
     
