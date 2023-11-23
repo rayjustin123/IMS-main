@@ -1,9 +1,9 @@
 <?php
 
-$host = "localhost";
-$dbname = "login_db";
-$username = "root";
-$password = "root";
+$host = "ims-db-mysql-do-user-1470238-0.c.db.ondigitalocean.com";
+$dbname = "defaultdb";
+$username = "doadmin";
+$password = "AVNS_WDn6Taz9qQiXQ9dzgnb";
 
 // $mysqli = new mysqli(hostname: $host,
 //                      username: $username,
