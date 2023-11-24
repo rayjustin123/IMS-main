@@ -1,81 +1,33 @@
-<?php
-
-$is_invalid = false;
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    
-    $mysqli = require __DIR__ . "/database.php";
-    
-//   $sql = sprintf("SELECT id, password_hash, account_activation_hash FROM user
-//                 WHERE email = '%s'",
-//                $mysqli->real_escape_string($_POST["email"]));
-$sql = sprintf("SELECT id, password_hash, account_activation_hash FROM user
-                WHERE email = '%s'",
-               $mysqli->real_escape_string($_POST["email"]));
-
-
-    
-    $result = $mysqli->query($sql);
-    if (!$result) {
-        die("Error in query: " . $mysqli->error);
-    }
-    
-    $user = $result->fetch_assoc();
-    
-    if ($user && $user["account_activation_hash"] === null) {
-        
-        if (password_verify($_POST["password"], $user["password_hash"])) {
-            
-            session_start();
-            
-            session_regenerate_id();
-            
-            $_SESSION["user_id"] = $user["id"];
-            
-            header("Location: index.html");
-            exit;
-        }
-    }
-    
-    $is_invalid = true;
-}
-
+<?php require("login.class.php") ?>
+<?php 
+	if(isset($_POST['submit'])){
+		$user = new LoginUser($_POST['username'], $_POST['password']);
+	}
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <link rel="stylesheet" href="styles.css">
+	<title>Log in form</title>
 </head>
 <body>
-    
-    <h1>Login</h1>
-    
-    <?php if ($is_invalid): ?>
-        <em>Invalid login</em>
-    <?php endif; ?>
-    
-    <form method="post">
-        <label for="email">email</label>
-        <input type="email" name="email" id="email"
-               value="<?= htmlspecialchars($_POST["email"] ?? "") ?>">
-        
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
-        
-        <button>Log in</button>
-    </form>
+	<form action="" method="post" enctype="multipart/form-data" autocomplete="off">
+		<h2>Login form</h2>
+		<h4>Both fields are <span>required</span></h4>
 
-    <a href="forgot-password.php">Forgot password?</a>
-    
+		<label>Username</label>
+		<input type="text" name="username">
+
+		<label>Password</label>
+		<input type="text" name="password">
+
+		<button type="submit" name="submit">Log in</button>
+
+		<p class="error"><?php echo @$user->error ?></p>
+		<p class="success"><?php echo @$user->success ?></p>
+	</form>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
