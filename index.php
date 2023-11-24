@@ -24,7 +24,7 @@ if (isset($_SESSION["user_id"])) {
 </head>
 <body>
     
-    <h1>Home</h1>
+    <h1>Inventory Management System</h1>
     
     <?php if (isset($user)): {
         
